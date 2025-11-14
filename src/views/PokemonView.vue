@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 
-import { usePokemonStore } from '@/stores/pokedex'
+import { usePokedexStore } from '@/stores/pokedex'
 import PokemonItem from '@/components/PokemonItem.vue'
 
-const pokemonStore = usePokemonStore()
+const pokedexStore = usePokedexStore()
 
 onMounted(() => {
-  pokemonStore.getPokemon()
+  pokedexStore.getPokemon()
+})
+
+const pokemonList = computed(() => {
+  return pokedexStore.pokemonList
 })
 </script>
 <template>
-  <div class="text-3xl font-bold underline">listado de pokemon</div>
-  <PokemonItem />
+  <h1 class="text-white text-xl tracking-wide">Pokédex</h1>
+  <PokemonItem v-for="pokemon in pokemonList" :key="pokemon.id" :pokemon="pokemon" />
 </template>
